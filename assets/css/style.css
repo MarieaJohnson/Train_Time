@@ -1,0 +1,26 @@
+/* Train Time CSS */
+
+#header{
+    background-color: rgb(5, 5, 75);
+    color: #ffffff;
+    font-family:"New Times Roman";
+    text-align: center;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 25px;
+}
+body{
+    background-color: dark gray;
+}
+#table{
+    font-family: "New Times Roman";
+    color: #ffffff;
+    background-color: rgb(5, 5, 75);
+    border-radius: 25px;
+}
+#form{
+    font-family: "New Times Roman";
+    color: #ffffff;
+    background-color: rgb(5, 5, 75);
+    border-radius: 25px;
+}

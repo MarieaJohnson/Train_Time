@@ -22,46 +22,48 @@ var time = "";
 var frequency = "";
 var addTrain
 
-  $("#addTrain").on("click", function(event){
-    event.preventDefault();
-    name = $("#inputName").val().trim();
-    destination = $("#inputDestination").val().trim();
-    time = moment($("#inputTime").val().trim(),"HH:mm").subtract(1,"year").format("X");
-    frequency = $("#inputFreq").val().trim();
-    console.log(name);
-    console.log(destination);
-    console.log(time);
-    console.log(frequency);
+$("#addTrain").on("click", function (event) {
+  event.preventDefault();
+  name = $("#inputName").val().trim();
+  destination = $("#inputDestination").val().trim();
+  time = moment($("#inputTime").val().trim(), "HH:mm").subtract(1, "year").format("X");
+  frequency = $("#inputFreq").val().trim();
+  console.log(name);
+  console.log(destination);
+  console.log(time);
+  console.log(frequency);
 
-    database.ref().push(
-      {
-        name: name,
-        destination: destination,
-        time: time,
-        frequency: frequency,
-        dateAdded: firebase.database.ServerValue.TIMESTAMP
-      }
+  database.ref().push(
+    {
+      name: name,
+      destination: destination,
+      time: time,
+      frequency: frequency,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    }
   )
-  })
+})
 
-  database.ref().on("child_added", function(childSnapshot) {
-    
-    var childTime = childSnapshot.val().startTime;
-    var parseTime = moment(childTime, "HH:mm");
+database.ref().on("child_added", function (childSnapshot) {
 
-    // converting 24 hour time to 12 AM/PM time (1:00 PM)
-    // return moment("13", ["HH"]).format("hh A");
+  var childTime = childSnapshot.val().startTime;
+  var parseTime = moment(childTime, "HH:mm");
 
-    // time right now
-    var now = moment();
-    console.log(now);
-    var startTime = childSnapshot.val().time;
-    var freq = childSnapshot.val().frequency; 
-    var remainder = now.subtract(startTime, "m") % freq;
-    console.log(remainder);
-    var nextTrain = now.add(remainder, "m");
+  // converting 24 hour time to 12 AM/PM time (1:00 PM)
+  // return moment("13", ["HH"]).format("hh A");
 
-    $("#myTable").append(`
+  // time right now
+  var now = moment();
+  console.log(now);
+
+  var startTime = childSnapshot.val().time;
+  var freq = childSnapshot.val().frequency;
+  var remainder = now.subtract(startTime, "HH:mm") % freq;
+  console.log(remainder);
+
+  var nextTrain = now.add(remainder, "m");
+
+  $("#myTable").append(`
         <tr>
         <td>${childSnapshot.val().name}</td>
         <td>${childSnapshot.val().destination}</td>
@@ -72,7 +74,7 @@ var addTrain
         </tr>
     `)
 
-    // Handle the errors
-  }, function (errorObject) {
-    console.log("Errors handled: " + errorObject.code);
-  });
+  // Handle the errors
+}, function (errorObject) {
+  console.log("Errors handled: " + errorObject.code);
+});

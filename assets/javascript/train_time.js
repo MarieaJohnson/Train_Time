@@ -11,7 +11,6 @@ var config = {
   messagingSenderId: "862329771952"
 };
 firebase.initializeApp(config);
-// console.log("firebase");
 
 // Create a variable to reference the database.
 var database = firebase.database();
@@ -58,10 +57,10 @@ database.ref().on("child_added", function (childSnapshot) {
 
   var startTime = childSnapshot.val().time;
   var freq = childSnapshot.val().frequency;
-  var remainder = now.subtract(startTime, "HH:mm") % freq;
+  var remainder = now.subtract(startTime,"hh:mm A") % freq;
   console.log(remainder);
 
-  var nextTrain = now.add(remainder, "m");
+  var nextTrain = now.add(remainder,"m");
 
   $("#myTable").append(`
         <tr>
